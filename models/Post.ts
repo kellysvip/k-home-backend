@@ -1,0 +1,68 @@
+import mongoose from "mongoose";
+
+export interface IPost {
+  author: String;
+  title: String;
+  imageUrl: String;
+  address: String;
+  price: Number;
+  noBedroom: Number;
+  noBathroom: Number;
+  description: String;
+  area: String;
+  status: String;
+  isDelete: Boolean;
+}
+
+const postSchema = new mongoose.Schema(
+  {
+    author: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    imageUrl: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    noBedroom: {
+      type: Number,
+      required: true,
+    },
+    noBathroom: {
+      type: Number,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    area: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    isDelete: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+export const Post = mongoose.model("Post", postSchema);
