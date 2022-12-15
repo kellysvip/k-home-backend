@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { PostStatus } from "../constants/enums/post-status.enum";
 
 export interface IPost {
   author: String;
@@ -55,12 +56,14 @@ const postSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      enum: Object.values(PostStatus),
       required: true,
     },
     isDelete: {
       type: Boolean,
       required: true,
       default: false,
+      select: false,
     },
   },
   { timestamps: true }
