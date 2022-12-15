@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Connect to MONGODB   //NODE_ENV === 'test'
 const mongoURI: string =
   process.env.MONGODB_URI ||
-  "mongodb+srv://admin:admin@cluster0.t244bsh.mongodb.net/k-home-test";
+  "mongodb+srv://admin:admin@cluster0.j7fapsx.mongodb.net/test";
 
 mongoose
   .connect(mongoURI)

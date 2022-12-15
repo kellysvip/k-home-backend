@@ -8,4 +8,12 @@ router.get('/', function(req, res, next) {
   res.status(200).send({ status: "ok", data: "Hello" });
 });
 
+// authApi
+import authApi from './auth.api'
+router.use('/auth', authApi)
+
+// userApi
+import userApi from './user.api'
+router.use('/users', userApi)
+
 
