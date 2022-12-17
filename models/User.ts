@@ -17,6 +17,8 @@ export interface IUser {
     isDeleted?: string;
     generateToken: () => Promise<string>;
     toJSON: () => IUser;
+    save: () => Promise<IUser>
+
   }
 
 const userSchema = new mongoose.Schema(

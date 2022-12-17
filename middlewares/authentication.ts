@@ -6,7 +6,6 @@ interface IJWTPayload {
   _id: string;
 }
 
-
 export const loginRequired = (
   req: Request & { userId?: string },
   res: Response,
@@ -14,6 +13,7 @@ export const loginRequired = (
 ) => {
   try {
     const tokenString = req.headers["authorization"];
+    console.log("tokenString", req.headers["authorization"]);
     if (!tokenString)
       throw new AppError(401, "Login Required", "Authentication Error");
 
@@ -29,7 +29,7 @@ export const loginRequired = (
       const payload = decoded as IJWTPayload;
       req.userId = payload._id;
     });
-    
+
     next();
   } catch (error) {
     next(error);

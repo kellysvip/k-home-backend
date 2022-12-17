@@ -17,6 +17,8 @@ export const loginWithEmail = catchAsync(
     if (!isMatch) throw new AppError(400, "Wrong Password", "Login Error");
 
     const accessToken = await user.generateToken();
+    console.log(accessToken);
+
 
     //Response
     sendResponse(res, 200, true, { user, accessToken }, null, "Login Success");
