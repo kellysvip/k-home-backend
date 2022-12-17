@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import Joi from "joi";
 
 export function sendResponse(
   res: Response,
@@ -23,6 +24,10 @@ export function sendResponse(
 export const catchAsync = (func: Function) => (req: Request, res: Response, next: NextFunction ) => {
     func(req, res, next).catch((err: Error) => res.status(500).json({errMessage: err.message}))
 }
+
+// export function validateSchema(schema: object, parameters: Request) {
+//   return Joi.attempt(parameters, schema)
+// } 
 
 export class AppError extends Error {
   public statusCode: number;

@@ -16,4 +16,7 @@ router.use('/auth', authApi)
 import userApi from './user.api'
 router.use('/users', userApi)
 
+import postApi from './post.api'
+router.use('/posts', postApi)
+
 
