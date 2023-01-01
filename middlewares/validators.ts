@@ -15,5 +15,5 @@ export const validate =
       .map((error) => error.msg)
       .join(" & ");
 
-    return sendResponse(res, 422, false, { message }, null, "Validator Error");
+    return sendResponse(res, 400, { message }, "Validator Error");
   };

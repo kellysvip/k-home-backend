@@ -1,10 +1,23 @@
 import { Response, Request, NextFunction } from "express";
-import { IUser, User } from "../../../models/User";
-import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
-import mongoose, { FilterQuery } from "mongoose";
+import { IUser } from "../../../models/User";
+import {
+  sendResponse,
+  catchAsync,
+  validateSchema,
+} from "../../../helpers/ultis";
+import { FilterQuery } from "mongoose";
 import { Post } from "../../../models/Post";
-import { Types } from "mongoose";
 import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
+import httpStatus from 'http-status'
+import Joi from "joi";
+
+
+
+
+const requestSchema = Joi.object({
+  page: Joi.number().default(1),
+  limit: Joi.number().default(10),
+});
 
 export const getPosts = catchAsync(
   async (
@@ -15,16 +28,10 @@ export const getPosts = catchAsync(
     next: NextFunction
   ) => {
     //get data from request
-    const currentUserId = req.userId; //req.userId validate
-
-    const {
-      params: { userId },
-    } = req;
-
-    let { page, limit, ...filter } = { ...req.query };
-
-    page = page || 1;
-    limit = limit || 10;
+    const { page, limit, ...filter } = validateSchema<IGetPostQuery>(
+      requestSchema,
+      req.query
+    );
 
     let filterConditions = [] as FilterQuery<IUser>;
     filterConditions = [{ isDeleted: false }];
@@ -50,11 +57,9 @@ export const getPosts = catchAsync(
     //Response
     sendResponse(
       res,
-      200,
-      true,
+      httpStatus.OK,
       { posts, totalPage, count },
-      null,
       "Get All Post User Can See Success"
-    ); //errorts
+    );
   }
 );

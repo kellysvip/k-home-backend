@@ -19,15 +19,16 @@ export const loginRequired = (
 
     const token = tokenString.replace("Bearer ", "");
     jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
-      if (err) {
-        if (err.name === "TokenExpiredError") {
-          throw new AppError(401, "Token Expired", "Authentication Error");
-        } else {
-          throw new AppError(401, "Token is Invalid", "Authentication Error");
-        }
+      if (!err) {
+        const payload = decoded as IJWTPayload;
+        req.userId = payload._id;
+        return;
       }
-      const payload = decoded as IJWTPayload;
-      req.userId = payload._id;
+
+      if (err.name === "TokenExpiredError") {
+        throw new AppError(401, "Token Expired", "Authentication Error");
+      }
+      throw new AppError(401, "Token is Invalid", "Authentication Error");
     });
 
     next();

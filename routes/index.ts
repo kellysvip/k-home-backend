@@ -9,14 +9,14 @@ router.get('/', function(req, res, next) {
 });
 
 // authApi
-import authApi from './auth.api'
+import authApi from '../api/controllers/auth/index'
 router.use('/auth', authApi)
 
 // userApi
-import userApi from './user.api'
+import userApi from '../api/controllers/user/index'
 router.use('/users', userApi)
 
-import postApi from './post.api'
+import postApi from '../api/controllers/post/index'
 router.use('/posts', postApi)
 
 

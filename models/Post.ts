@@ -2,17 +2,17 @@ import mongoose from "mongoose";
 import { PostStatus } from "../constants/enums/post-status.enum";
 
 export interface IPost {
-  author: String;
-  title: String;
-  imageUrl: String;
-  address: String;
-  price: Number;
-  noBedroom: Number;
-  noBathroom: Number;
-  description: String;
-  area: String;
-  status: String;
-  isDelete: Boolean;
+  author: string;
+  title: string;
+  imageUrl: string;
+  address: string;
+  price: number;
+  noBedroom: number;
+  noBathroom: number;
+  description: string;
+  area: string;
+  status: string;
+  isDelete: boolean;
 }
 
 const postSchema = new mongoose.Schema(

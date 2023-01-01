@@ -4,7 +4,7 @@ const app = require("../../../app");
 describe("Posts", () => {
 
   test("POST /posts --> User make a new post", async () => {
-    const { body } = await request(app)
+    const { body } = await request(app).set('Authorization', 'Bearer token')
       .post("/posts")
       .send({
         "title": "test",

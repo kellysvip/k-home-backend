@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { IUser, User } from "../../../models/User";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
 import { IGetUserAuthInfoRequest } from "../../../constants/interfaces/request.interface";
+import httpStatus from 'http-status'
 
 export const getSingleUser = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
@@ -11,10 +12,10 @@ export const getSingleUser = catchAsync(
 
     const user = (await User.findById(userId)) as IUser;
     if (!user)
-      throw new AppError(400, "User not found", "Get Single User Error");
+      throw new AppError(404, "User not found", "Get Single User Error");
     //Process
 
     //Response
-    sendResponse(res, 200, true, { user }, null, "Get Single User Success");
+    sendResponse(res, httpStatus.OK,  { user }, "Get Single User Success");
   }
 );

@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
 import { IUser, User } from "../../../models/User";
+import httpStatus from "http-status";
 import bcrypt from "bcryptjs";
 
 export const loginWithEmail = catchAsync(
@@ -9,7 +10,7 @@ export const loginWithEmail = catchAsync(
     const { email, password } = req.body;
     //Validation
 
-    let user = (await User.findOne({ email }, "+password")) as unknown as IUser;
+    let user = (await User.findOne({ email })) as unknown as IUser;
     if (!user) throw new AppError(400, "Invalid Credentials", "Login Error");
 
     //Process
@@ -19,8 +20,7 @@ export const loginWithEmail = catchAsync(
     const accessToken = await user.generateToken();
     console.log(accessToken);
 
-
     //Response
-    sendResponse(res, 200, true, { user, accessToken }, null, "Login Success");
+    sendResponse(res, httpStatus.OK, { user, accessToken }, "Login Success");
   }
 );

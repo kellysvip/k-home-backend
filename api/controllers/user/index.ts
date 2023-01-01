@@ -1,12 +1,13 @@
 import express from "express";
 import { body, param } from "express-validator";
-import { createUser } from "../api/controllers/user/createUser";
-import { getCurrentUser } from "../api/controllers/user/getCurrentUser";
-import { getSingleUser } from "../api/controllers/user/getSingleUser";
-import { updateProfile } from "../api/controllers/user/updateProfile";
-import { loginRequired } from "../middlewares/authentication";
-import { checkObjectId } from "../middlewares/checkObjectId";
-import { validate } from "../middlewares/validators";
+import { loginRequired } from "../../../middlewares/authentication";
+import { checkObjectId } from "../../../middlewares/checkObjectId";
+import { validate } from "../../../middlewares/validators";
+import { createUser } from "./createUser";
+import { getCurrentUser } from "./getCurrentUser";
+import { getSingleUser } from "./getSingleUser";
+import { updateProfile } from "./updateProfile";
+
 const router = express.Router();
 
 /**

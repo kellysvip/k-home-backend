@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 export interface IBookmark {
-  user: String;
-  postId: String;
+  user: string;
+  postId: string;
 }
 
 const bookmarkSchema = new mongoose.Schema(

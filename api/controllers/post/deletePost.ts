@@ -1,9 +1,14 @@
 import { Response, NextFunction, Request } from "express";
 import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
-import { IGetUserAuthInfoRequest } from "../../../constants/interfaces/request.interface";
-import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
+import { sendResponse, AppError, catchAsync, validateSchema } from "../../../helpers/ultis";
 import { Post } from "../../../models/Post";
 import { calculatePostCount } from "./createPost";
+import httpStatus from "http-status";
+import Joi from "joi";
+
+const paramSchema = Joi.object({
+  postId: Joi.string().guid().required(),
+});
 
 export const deletePost = catchAsync(
   async (
@@ -15,9 +20,10 @@ export const deletePost = catchAsync(
   ) => {
     //get data from request
     const currentUserId = req.userId;
-    const {
-      params: { postId },
-    } = req;
+    const { postId } = validateSchema<{ postId: string }>(
+      paramSchema,
+      req.params
+    );
 
     const post = await Post.findByIdAndUpdate(
       { _id: postId, author: currentUserId },
@@ -33,6 +39,6 @@ export const deletePost = catchAsync(
     await calculatePostCount(currentUserId as unknown as string);
 
     //Response
-    sendResponse(res, 200, true, { post }, null, "Delete Post Success");
+    sendResponse(res, httpStatus.OK, { post }, "Delete Post Success");
   }
 );

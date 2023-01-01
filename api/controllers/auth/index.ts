@@ -1,7 +1,9 @@
 import express from "express";
-import { validate } from "../middlewares/validators";
+
 import { body } from "express-validator";
-import { loginWithEmail } from "../api/controllers/auth/loginWithEmail";
+import { validate } from "../../../middlewares/validators";
+import { loginWithEmail } from "./loginWithEmail";
+
 
 const router = express.Router();
 

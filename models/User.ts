@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+require("dotenv/config");
 
 export const JWT_SECRET_KEY: string = process.env.JWT_SECRET_KEY || "hdfgjhd";
 
@@ -8,7 +9,7 @@ export interface IUser {
     name: string;
     email: string;
     password: string;
-    phoneNumber?: String;
+    phoneNumber?: string;
     avatarUrl?: string;
     aboutMe?: string;
     jobTitle?: string;
@@ -84,8 +85,8 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-userSchema.method("generateToken", async function generateToken() {
-  const accessToken: string = await jwt.sign(
+userSchema.method("generateToken",  function generateToken() {
+  const accessToken: string =  jwt.sign(
     { _id: this._id },
     JWT_SECRET_KEY,
     {

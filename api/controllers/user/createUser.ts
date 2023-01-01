@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { IUser, User } from "../../../models/User";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
+import httpStatus from 'http-status'
 import bcrypt from "bcryptjs";
 
 export const createUser = catchAsync(
@@ -21,10 +22,8 @@ export const createUser = catchAsync(
     //Response
     sendResponse(
       res,
-      200,
-      true,
+      httpStatus.CREATED,
       { user, accessToken },
-      null,
       "Create User Success"
     );
   }

@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { IUser, User } from "../../../models/User";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
 import { IGetUserAuthInfoRequest } from "../../../constants/interfaces/request.interface";
-
+import httpStatus from 'http-status'
 
 export const updateProfile = catchAsync(
   async (
@@ -21,7 +21,7 @@ export const updateProfile = catchAsync(
       throw new AppError(400, "Permission Required", "Update User Error");
 
     const user = (await User.findById(userId)) as IUser;
-    if (!user) throw new AppError(400, "User not found", "Update User Error");
+    if (!user) throw new AppError(404, "User not found", "Update User Error");
 
     const allows = [
       "name",
@@ -40,6 +40,6 @@ export const updateProfile = catchAsync(
 
 
     //Response
-    sendResponse(res, 200, true, { user }, null, "Update User Success"); 
+    sendResponse(res, httpStatus.OK,  { user },  "Update User Success"); 
   }
 );

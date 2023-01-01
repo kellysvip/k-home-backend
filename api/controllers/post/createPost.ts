@@ -2,6 +2,7 @@ import { Response, Request, NextFunction } from "express";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
 import { Post } from "../../../models/Post";
 import { User } from "../../../models/User";
+import httpStatus from 'http-status'
 
 export const calculatePostCount = async (userId: string) => {
   const postCount = await Post.countDocuments({
@@ -49,6 +50,6 @@ export const createPost = catchAsync(
     post = await post.populate("author");
 
     //Response
-    sendResponse(res, 200, true, { post }, null, "Create Post Success");
+    sendResponse(res, httpStatus.CREATED,  { post },  "Create Post Success");
   }
 );

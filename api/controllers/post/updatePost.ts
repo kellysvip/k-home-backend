@@ -3,6 +3,7 @@ import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
 import { IGetUserAuthInfoRequest } from "../../../constants/interfaces/request.interface";
 import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
 import { Post } from "../../../models/Post";
+import httpStatus from 'http-status'
 
 export const updatePost = catchAsync(
   async (
@@ -43,6 +44,6 @@ export const updatePost = catchAsync(
     await post.save();
 
     //Response
-    sendResponse(res, 200, true, { post }, null, "Update Post Success");
+    sendResponse(res, httpStatus.OK,  { post },  "Update Post Success");
   }
 );

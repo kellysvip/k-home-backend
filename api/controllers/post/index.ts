@@ -1,13 +1,14 @@
 import express from "express";
 import { body, param } from "express-validator";
-import { createPost } from "../api/controllers/post/createPost";
-import { deletePost } from "../api/controllers/post/deletePost";
-import { getPosts } from "../api/controllers/post/getPosts";
-import { getSinglePost } from "../api/controllers/post/getSinglePost";
-import { updatePost } from "../api/controllers/post/updatePost";
-import { loginRequired } from "../middlewares/authentication";
-import { checkObjectId } from "../middlewares/checkObjectId";
-import { validate } from "../middlewares/validators";
+import { loginRequired } from "../../../middlewares/authentication";
+import { checkObjectId } from "../../../middlewares/checkObjectId";
+import { validate } from "../../../middlewares/validators";
+import { createPost } from "./createPost";
+import { deletePost } from "./deletePost";
+import { getPosts } from "./getPosts";
+import { getSinglePost } from "./getSinglePost";
+import { updatePost } from "./updatePost";
+
 const router = express.Router();
 
 /**
