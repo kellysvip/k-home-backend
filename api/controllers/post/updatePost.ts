@@ -1,9 +1,33 @@
 import { Response, NextFunction, Request } from "express";
 import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
 import { IGetUserAuthInfoRequest } from "../../../constants/interfaces/request.interface";
-import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
+import {
+  sendResponse,
+  AppError,
+  catchAsync,
+  validateSchema,
+} from "../../../helpers/ultis";
 import { Post } from "../../../models/Post";
-import httpStatus from 'http-status'
+import { PostStatus } from "../../../constants/enums/post-status.enum";
+import httpStatus from "http-status";
+import Joi from "joi";
+import { calculatePostCount } from "./createPost";
+
+const requestSchema = Joi.object({
+  title: Joi.string(),
+  imageUrl: Joi.string(),
+  address: Joi.string(),
+  price: Joi.number(),
+  noBedroom: Joi.number(),
+  noBathroom: Joi.number(),
+  description: Joi.string(),
+  area: Joi.number(),
+  status: Joi.string().valid(PostStatus),
+});
+
+const paramSchema = Joi.object({
+  postId: Joi.string().required(),
+});
 
 export const updatePost = catchAsync(
   async (
@@ -13,37 +37,26 @@ export const updatePost = catchAsync(
     res: Response,
     next: NextFunction
   ) => {
-    //get data from request
-    const currentUserId = req.userId; //errorts  req.userId
-    const {
-      params: { postId },
-    } = req;
+    const currentUserId = req.userId;
+    const { postId } = validateSchema<{ postId: string }>(
+      paramSchema,
+      req.params
+    );
+    const { ...info } = validateSchema(requestSchema, req.body)
 
-    let post = await Post.findById(postId);
-    if (!post) throw new AppError(404, "Post not found", "Update Error");
-    if (!(post.author === currentUserId))
-      throw new AppError(400, "Only author can edit post", "Update Post Error");
-
-    const allows = [
-      "title",
-      "imageUrl",
-      "address",
-      "price",
-      "noBedroom",
-      "noBathroom",
-      "description",
-      "area",
-      "status",
-      "isDelete",
-    ];
-    allows.forEach((field) => {
-      if (req.body[field] !== undefined) {
-        (post as any)[field] = req.body[field];
-      }
-    });
-    await post.save();
+    const post = await Post.findByIdAndUpdate(
+      { _id: postId, author: currentUserId },
+      { ...info },
+      { new: true }
+    );
+    if (!post)
+      throw new AppError(
+        404,
+        "Post not found or User not authorized",
+        "Delete Post Error"
+      );
 
     //Response
-    sendResponse(res, httpStatus.OK,  { post },  "Update Post Success");
+    sendResponse(res, httpStatus.OK, { post }, "Update Post Success");
   }
 );

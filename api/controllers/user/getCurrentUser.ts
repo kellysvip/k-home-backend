@@ -7,7 +7,7 @@ import httpStatus from 'http-status'
 export const getCurrentUser = catchAsync(
   async (req: IGetUserAuthInfoRequest, res: Response, next: NextFunction) => {
     const currentUserId = req.userId;
-    console.log('currentUserId', currentUserId);
+    
     const user = await User.findById(currentUserId);
 
     if (!user)

@@ -12,8 +12,6 @@ import httpStatus from 'http-status'
 import Joi from "joi";
 
 
-
-
 const requestSchema = Joi.object({
   page: Joi.number().default(1),
   limit: Joi.number().default(10),
@@ -27,7 +25,6 @@ export const getPosts = catchAsync(
     res: Response,
     next: NextFunction
   ) => {
-    //get data from request
     const { page, limit, ...filter } = validateSchema<IGetPostQuery>(
       requestSchema,
       req.query

@@ -1,8 +1,14 @@
 import { Response, Request, NextFunction } from "express";
-import { sendResponse, AppError, catchAsync } from "../../../helpers/ultis";
+import {
+  sendResponse,
+  AppError,
+  catchAsync,
+  validateSchema,
+} from "../../../helpers/ultis";
 import { Post } from "../../../models/Post";
 import { User } from "../../../models/User";
-import httpStatus from 'http-status'
+import httpStatus from "http-status";
+import Joi from "joi";
 
 export const calculatePostCount = async (userId: string) => {
   const postCount = await Post.countDocuments({
@@ -12,44 +18,38 @@ export const calculatePostCount = async (userId: string) => {
   await User.findByIdAndUpdate(userId, { postCount });
 };
 
+const requestSchema = Joi.object({
+  title: Joi.string().required(),
+  imageUrl: Joi.string().required(),
+  address: Joi.string().required(),
+  price: Joi.number().required(),
+  noBedroom: Joi.number().required(),
+  noBathroom: Joi.number().required(),
+  description: Joi.string().required(),
+  area: Joi.number().required(),
+  status: Joi.string().required(),
+  isDelete: Joi.boolean().required(),
+});
+
 export const createPost = catchAsync(
   async (
     req: Request & { userId?: string },
     res: Response,
     next: NextFunction
   ) => {
-    //get data from request
     const currentUserId = req.userId;
     const {
-      title,
-      imageUrl,
-      address,
-      price,
-      noBedroom,
-      noBathroom,
-      description,
-      area,
-      status,
-      isDelete,
-    } = req.body;
+      ...info
+    } = validateSchema(requestSchema, req.body);
 
     let post = await Post.create({
-      title,
-      imageUrl,
-      address,
-      price,
-      noBedroom,
-      noBathroom,
-      description,
-      area,
-      status,
-      isDelete,
+      ...info,
       author: currentUserId,
     });
     await calculatePostCount(currentUserId!);
     post = await post.populate("author");
 
     //Response
-    sendResponse(res, httpStatus.CREATED,  { post },  "Create Post Success");
+    sendResponse(res, httpStatus.CREATED, { post }, "Create Post Success");
   }
 );

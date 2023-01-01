@@ -7,7 +7,7 @@ import httpStatus from "http-status";
 import Joi from "joi";
 
 const paramSchema = Joi.object({
-  postId: Joi.string().guid().required(),
+  postId: Joi.string().required(),
 });
 
 export const deletePost = catchAsync(
@@ -18,7 +18,6 @@ export const deletePost = catchAsync(
     res: Response,
     next: NextFunction
   ) => {
-    //get data from request
     const currentUserId = req.userId;
     const { postId } = validateSchema<{ postId: string }>(
       paramSchema,
