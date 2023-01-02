@@ -54,16 +54,17 @@ describe("Posts", () => {
 
   test("UPDATE / --> Update a Post with wrong enum status", async () => {
     const { body } = await request(app)
-      .put("/api/posts/63b13b4a16825bd098f97d1a").set(
+      .put("/api/posts/63b13b4a16825bd098f97d1a")
+      .set(
         "Authorization",
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliNjFiMGRiMjg5YzhjZGE3Y2U1OTUiLCJpYXQiOjE2NzI1OTI3OTQsImV4cCI6MTY3MjY3OTE5NH0.3oi8Wbl1WEsxtIXJugwzKkif6UcxzMeriDwt4wyJ5Ls"
       )
       .send({
-        "status": "has been updated"
-    })
+        status: "has been updated",
+      })
       .expect(500);
     expect(body).toEqual({
-      "errMessage": "\"status\" must be [[object Object]]"
-  });
+      errMessage: '"status" must be [[object Object]]',
+    });
   });
 });
