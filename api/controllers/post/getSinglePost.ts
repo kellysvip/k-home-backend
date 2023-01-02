@@ -10,7 +10,7 @@ import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
 import httpStatus from "http-status";
 import Joi from "joi";
 const paramSchema = Joi.object({
-  postId: Joi.string().guid().required(),
+  postId: Joi.string().required(),
 });
 
 export const getSinglePost = catchAsync(

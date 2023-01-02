@@ -15,6 +15,7 @@ import Joi from "joi";
 const requestSchema = Joi.object({
   page: Joi.number().default(1),
   limit: Joi.number().default(10),
+  title: Joi.string()
 });
 
 export const getPosts = catchAsync(
@@ -45,6 +46,7 @@ export const getPosts = catchAsync(
     const count = await Post.countDocuments({ filterCriteria });
     const totalPage = Math.ceil(count / limit);
     const offset = limit * (page - 1);
+    console.log("filterCriteria", filterCriteria);
     let posts = await Post.find({ filterCriteria })
       .sort({ createAt: -1 })
       .skip(offset)
