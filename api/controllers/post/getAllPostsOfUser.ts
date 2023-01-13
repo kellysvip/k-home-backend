@@ -8,16 +8,19 @@ import {
 import { FilterQuery } from "mongoose";
 import { IPost, Post } from "../../../models/Post";
 import { IGetPostQuery } from "../../../constants/interfaces/query.interface";
-import httpStatus from "http-status";
+import httpStatus from 'http-status'
 import Joi from "joi";
+const paramSchema = Joi.object({
+    userId: Joi.string()
+  });
+  
 
 const requestSchema = Joi.object({
   page: Joi.number().default(1),
   limit: Joi.number().default(10),
-  title: Joi.string(),
 });
 
-export const getPosts = catchAsync(
+export const getAllPostsOfUser = catchAsync(
   async (
     req: Request<{ userId: string }, any, {}, IGetPostQuery> & {
       userId: string;
@@ -29,32 +32,19 @@ export const getPosts = catchAsync(
       requestSchema,
       req.query
     );
+    const { userId } = validateSchema<{ userId: string }>(
+        paramSchema,
+        req.params
+      );
 
-    let filterConditions = [] as FilterQuery<IPost>;
-    filterConditions = [{ isDeleted: false }];
-    if (filter.title) {
-      filterConditions.push({
-        title: { $regex: filter.title, $options: "i" },
-      });
-    }
-    console.log("filter.title", filter.title);
-
-    const filterCriteria = filterConditions.length
-      ? { $and: filterConditions }
-      : { isDelete: false };
-
-    const count = await Post.countDocuments(
-      filterCriteria as FilterQuery<IPost>
-    );
+    const count = await Post.countDocuments( {author: userId} );
     const totalPage = Math.ceil(count / limit);
     const offset = limit * (page - 1);
-    console.log("filterCriteria", JSON.stringify(filterCriteria));
-    const posts = await Post.find(filterCriteria as FilterQuery<IPost>)
+    const posts = await Post.find( {author: userId} )
       .sort({ createAt: -1 })
       .skip(offset)
       .limit(limit)
-      .populate("author");
-    console.log(posts);
+
     //Response
     sendResponse(
       res,

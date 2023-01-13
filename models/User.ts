@@ -58,7 +58,7 @@ const userSchema = new mongoose.Schema(
       required: false,
       default: "",
     },
-    faceBookLink: {
+    facebookLink: {
       type: String,
       required: false,
       default: "",

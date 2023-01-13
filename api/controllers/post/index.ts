@@ -5,6 +5,7 @@ import { checkObjectId } from "../../../middlewares/checkObjectId";
 import { validate } from "../../../middlewares/validators";
 import { createPost } from "./createPost";
 import { deletePost } from "./deletePost";
+import { getAllPostsOfUser } from "./getAllPostsOfUser";
 import { getPosts } from "./getPosts";
 import { getSinglePost } from "./getSinglePost";
 import { updatePost } from "./updatePost";
@@ -42,6 +43,16 @@ router.post(
  * @access Login required
  */
 router.get("/", loginRequired, getPosts);
+
+/**
+ * @route GET /posts/user/userId
+ * @description Get all posts of an user 
+ * @body
+ * @access Login required
+ */
+router.get("/user/:userId", loginRequired, getAllPostsOfUser);
+
+
 /**
  * @route PUT /posts/:id
  * @description Update a post

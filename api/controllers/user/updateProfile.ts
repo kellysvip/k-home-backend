@@ -17,10 +17,11 @@ const paramSchema = Joi.object({
 const requestSchema = Joi.object({
   name: Joi.string(),
   avatarUrl: Joi.string(),
+  phoneNumber: Joi.string(),
   aboutMe: Joi.string(),
   jobTitle: Joi.string(),
-  facebookLink: Joi.string(),
-  instagramLink: Joi.string(),
+  facebookLink: Joi.string().allow(''),
+  instagramLink: Joi.string().allow(''),
 });
 
 export const updateProfile = catchAsync(
