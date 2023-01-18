@@ -37,11 +37,11 @@ export const getAllPostsOfUser = catchAsync(
         req.params
       );
 
-    const count = await Post.countDocuments( {author: userId} );
+    const count = await Post.countDocuments( {author: userId, isDeleted: false} );
     const totalPage = Math.ceil(count / limit);
     const offset = limit * (page - 1);
-    const posts = await Post.find( {author: userId} )
-      .sort({ createAt: -1 })
+    const posts = await Post.find( {author: userId, isDeleted: false} )
+      .sort({ createAt: 1 })
       .skip(offset)
       .limit(limit)
 

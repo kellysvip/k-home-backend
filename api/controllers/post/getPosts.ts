@@ -15,6 +15,7 @@ const requestSchema = Joi.object({
   page: Joi.number().default(1),
   limit: Joi.number().default(10),
   title: Joi.string(),
+  address: Joi.string(),
 });
 
 export const getPosts = catchAsync(
@@ -37,20 +38,22 @@ export const getPosts = catchAsync(
         title: { $regex: filter.title, $options: "i" },
       });
     }
-    console.log("filter.title", filter.title);
-
+    if (filter.address) {
+      filterConditions.push({
+        address: { $regex: filter.address, $options: "i" },
+      });
+    }
     const filterCriteria = filterConditions.length
       ? { $and: filterConditions }
-      : { isDelete: false };
+      : { isDeleted: false };
 
     const count = await Post.countDocuments(
       filterCriteria as FilterQuery<IPost>
     );
     const totalPage = Math.ceil(count / limit);
     const offset = limit * (page - 1);
-    console.log("filterCriteria", JSON.stringify(filterCriteria));
     const posts = await Post.find(filterCriteria as FilterQuery<IPost>)
-      .sort({ createAt: -1 })
+      .sort({ createAt: 1 })
       .skip(offset)
       .limit(limit)
       .populate("author");

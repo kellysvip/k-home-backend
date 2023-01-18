@@ -21,7 +21,7 @@ describe("Posts", () => {
         description: "hello",
         area: 24,
         status: "available",
-        isDelete: false,
+        isDeleted: false,
       })
       .expect(201);
     expect(body).toEqual({
@@ -50,7 +50,7 @@ describe("Posts", () => {
           description: "hello",
           area: "24",
           status: "available",
-          isDelete: false,
+          isDeleted: false,
           _id: expect.any(String),
           createdAt: expect.any(String),
           updatedAt: expect.any(String),
@@ -78,7 +78,7 @@ describe("Posts", () => {
         description: "hello",
         area: 24,
         status: "available",
-        isDelete: false,
+        isDeleted: false,
       })
       .expect(500);
     expect(body).toEqual({
@@ -101,7 +101,7 @@ describe("Posts", () => {
         description: "hello",
         area: 24,
         status: "available",
-        isDelete: false,
+        isDeleted: false,
       })
       .expect(401);
     

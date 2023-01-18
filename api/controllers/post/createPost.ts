@@ -28,7 +28,7 @@ const requestSchema = Joi.object({
   description: Joi.string().required(),
   area: Joi.number().required(),
   status: Joi.string().required(),
-  isDelete: Joi.boolean().required(),
+  isDeleted: Joi.boolean().required(),
 });
 
 export const createPost = catchAsync(

@@ -12,7 +12,7 @@ export interface IPost {
   description: string;
   area: string;
   status: string;
-  isDelete: boolean;
+  isDeleted: boolean;
 }
 
 const postSchema = new mongoose.Schema(
@@ -59,11 +59,11 @@ const postSchema = new mongoose.Schema(
       enum: Object.values(PostStatus),
       required: true,
     },
-    isDelete: {
+    isDeleted: {
       type: Boolean,
       required: true,
       default: false,
-      select: false,
+      // select: false,
     },
   },
   { timestamps: true }

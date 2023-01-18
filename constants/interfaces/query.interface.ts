@@ -3,4 +3,5 @@ export interface IGetPostQuery {
   limit: number;
   title: string;
   userId: string;
+  address: string;
 }

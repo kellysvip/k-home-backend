@@ -22,7 +22,7 @@ const requestSchema = Joi.object({
   noBathroom: Joi.number(),
   description: Joi.string(),
   area: Joi.number(),
-  status: Joi.string().valid(PostStatus),
+  status: Joi.string(),
 });
 
 const paramSchema = Joi.object({
