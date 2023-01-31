@@ -16,7 +16,16 @@ router.use('/auth', authApi)
 import userApi from '../api/controllers/user/index'
 router.use('/users', userApi)
 
+// postApi
 import postApi from '../api/controllers/post/index'
 router.use('/posts', postApi)
+
+// conversationApi
+import conversationApi from '../api/controllers/conversation/index'
+router.use('/conversations', conversationApi)
+
+// messageApi
+import messageApi from '../api/controllers/message/index'
+router.use('/messages', messageApi)
 
 

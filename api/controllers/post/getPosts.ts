@@ -57,7 +57,6 @@ export const getPosts = catchAsync(
       .skip(offset)
       .limit(limit)
       .populate("author");
-    console.log(posts);
     //Response
     sendResponse(
       res,

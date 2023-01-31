@@ -4,6 +4,7 @@ import { loginRequired } from "../../../middlewares/authentication";
 import { checkObjectId } from "../../../middlewares/checkObjectId";
 import { validate } from "../../../middlewares/validators";
 import { createUser } from "./createUser";
+import { getAllUsers } from "./getAllUsers";
 import { getCurrentUser } from "./getCurrentUser";
 import { getSingleUser } from "./getSingleUser";
 import { updateProfile } from "./updateProfile";
@@ -37,19 +38,24 @@ router.post(
 
 router.get("/me", loginRequired, getCurrentUser);
 
+/**
+ * @route GET /users/all
+ * @description Get all user info
+ * @access Login required
+ */
 
+router.get("/all", loginRequired, getAllUsers);
 /**
  * @route GET /users/:id
  * @description Get current user info
  * @access Login required
  */
-
 router.get(
-    "/:userId",
-    loginRequired,
-    validate([param("userId").exists().isString().custom(checkObjectId)]),
-    getSingleUser
-  );
+  "/:userId",
+  loginRequired,
+  validate([param("userId").exists().isString().custom(checkObjectId)]),
+  getSingleUser
+);
 
 /**
  * @route PUT /users/:id
@@ -59,11 +65,11 @@ router.get(
  */
 
 router.put(
-    "/:userId",
-    loginRequired,
-    validate([param("userId").exists().isString().custom(checkObjectId)]),
-    updateProfile
-  );
+  "/:userId",
+  loginRequired,
+  validate([param("userId").exists().isString().custom(checkObjectId)]),
+  updateProfile
+);
 
 /**
  * @route DELETE /users/:id
