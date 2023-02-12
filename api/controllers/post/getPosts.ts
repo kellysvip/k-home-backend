@@ -47,13 +47,13 @@ export const getPosts = catchAsync(
       ? { $and: filterConditions }
       : { isDeleted: false };
 
-    const count = await Post.countDocuments(
-      filterCriteria as FilterQuery<IPost>
+    const countPosts = await Post.countDocuments(
+      // filterCriteria as FilterQuery<IPost>
     );
-    const totalPage = Math.ceil(count / limit);
+    const totalPage = Math.ceil(countPosts / limit);
     const offset = limit * (page - 1);
     const posts = await Post.find(filterCriteria as FilterQuery<IPost>)
-      .sort({ createAt: 1 })
+      .sort({ updatedAt: -1 })
       .skip(offset)
       .limit(limit)
       .populate("author");
@@ -61,7 +61,7 @@ export const getPosts = catchAsync(
     sendResponse(
       res,
       httpStatus.OK,
-      { posts, totalPage, count },
+      { posts, totalPage, countPosts },
       "Get All Post User Can See Success"
     );
   }

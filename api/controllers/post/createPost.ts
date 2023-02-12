@@ -20,7 +20,7 @@ export const calculatePostCount = async (userId: string) => {
 
 const requestSchema = Joi.object({
   title: Joi.string().required(),
-  imageUrl: Joi.string().required(),
+  imageUrl: Joi.array().items(Joi.string()).required(),
   address: Joi.string().required(),
   price: Joi.number().required(),
   noBedroom: Joi.number().required(),

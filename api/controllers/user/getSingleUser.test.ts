@@ -7,12 +7,13 @@ describe("Users", () => {
       .get("/api/users/639c1da222cb24eca949b6ad")
       .set(
         "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliNjFiMGRiMjg5YzhjZGE3Y2U1OTUiLCJpYXQiOjE2NzI1OTI3OTQsImV4cCI6MTY3MjY3OTE5NH0.3oi8Wbl1WEsxtIXJugwzKkif6UcxzMeriDwt4wyJ5Ls"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IzZThkNjQwYjM0N2QxMjZlNmMzNDEiLCJpYXQiOjE2NzYyMDk5MjQsImV4cCI6MTY3NjI5NjMyNH0.paqUOcPhtOZw7_xmhpNeRjhCOwdF4eItvTCkuBv0EZo"
       )
       .expect(200);
     expect(body).toEqual({
       data: {
         user: {
+          facebookLink: "",
           _id: "639c1da222cb24eca949b6ad",
           name: "Kelly2",
           email: "kelly.nguyen.02s@gmail.com",
@@ -34,9 +35,8 @@ describe("Users", () => {
   test("GET / --> Get single User without login", async () => {
     const { body } = await request(app)
       .get("/api/users/639c1da222cb24eca949b6ad")
-      
+
       .expect(401);
-    
   });
 
   test("GET / --> Get single User with wrong userId", async () => {
@@ -44,11 +44,11 @@ describe("Users", () => {
       .get("/api/users/639c1da222cb24eca949b6cd")
       .set(
         "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzliNjFiMGRiMjg5YzhjZGE3Y2U1OTUiLCJpYXQiOjE2NzI1OTI3OTQsImV4cCI6MTY3MjY3OTE5NH0.3oi8Wbl1WEsxtIXJugwzKkif6UcxzMeriDwt4wyJ5Ls"
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IzZThkNjQwYjM0N2QxMjZlNmMzNDEiLCJpYXQiOjE2NzYyMDk5MjQsImV4cCI6MTY3NjI5NjMyNH0.paqUOcPhtOZw7_xmhpNeRjhCOwdF4eItvTCkuBv0EZo"
       )
       .expect(500);
     expect(body).toEqual({
-      "errMessage": "User not found"
-  });
+      errMessage: "User not found",
+    });
   });
 });

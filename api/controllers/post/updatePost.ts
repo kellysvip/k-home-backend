@@ -22,7 +22,7 @@ const requestSchema = Joi.object({
   noBathroom: Joi.number(),
   description: Joi.string(),
   area: Joi.number(),
-  status: Joi.string(),
+  status: Joi.string().valid(...Object.values(PostStatus)),
 });
 
 const paramSchema = Joi.object({
@@ -42,7 +42,7 @@ export const updatePost = catchAsync(
       paramSchema,
       req.params
     );
-    const { ...info } = validateSchema(requestSchema, req.body)
+    const { ...info } = validateSchema(requestSchema, req.body);
 
     const post = await Post.findByIdAndUpdate(
       { _id: postId, author: currentUserId },

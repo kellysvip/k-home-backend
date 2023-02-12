@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     imageUrl: {
-      type: String,
+      type: Array,
       required: true,
     },
     address: {

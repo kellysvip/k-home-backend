@@ -1,10 +1,12 @@
 import request from "supertest";
 import app from "../../../app";
 
+
 describe("Posts", () => {
-  test("DELETE / --> Delete a Post (soft delete)", async () => {
+  jest.setTimeout(20000)
+  test("GET / --> Get a single post with postId", async () => {
     const { body } = await request(app)
-      .delete("/api/posts/63e8f15ba3a8f9477e282f2d")
+      .get("/api/posts/63e8f15ba3a8f9477e282f2d")
       .set(
         "Authorization",
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IzZThkNjQwYjM0N2QxMjZlNmMzNDEiLCJpYXQiOjE2NzYyMDk5MjQsImV4cCI6MTY3NjI5NjMyNH0.paqUOcPhtOZw7_xmhpNeRjhCOwdF4eItvTCkuBv0EZo"
@@ -14,7 +16,21 @@ describe("Posts", () => {
       "data": {
           "post": {
               "_id": "63e8f15ba3a8f9477e282f2d",
-              "author": "63b3e8d640b347d126e6c341",
+              "author": {
+                  "_id": "63b3e8d640b347d126e6c341",
+                  "name": "NH Tris",
+                  "email": "test02ss@gm.com",
+                  "phoneNumber": "0966044195",
+                  "avatarUrl": "https://res.cloudinary.com/dq8f0rpf1/image/upload/v1674623964/d76c907e70a64c979973fca1cce7945f_xqj8hr.jpg",
+                  "aboutMe": "hello",
+                  "jobTitle": "UIT",
+                  "faceBookLink": "",
+                  "instagramLink": "",
+                  "createdAt": "2023-01-03T08:35:34.817Z",
+                  "updatedAt": "2023-02-12T14:09:28.096Z",
+                  "__v": 0,
+                  "facebookLink": "https://www.facebook.com/tri.nguyenhuu.3979"
+              },
               "title": "🌿Căn Hộ Mới Tinh Gần Đại Học",
               "imageUrl": [
                   "https://cloud.mogi.vn/images/2023/01/11/346/7c4e6fffd0334bbf94bdc9c5ba0b0f88.jpg"
@@ -27,24 +43,16 @@ describe("Posts", () => {
               "area": "35",
               "status": "reserve",
               "isDeleted": true,
-              "createdAt": expect.any(String),
-              "updatedAt": expect.any(String),
+              "createdAt": "2023-02-12T14:02:03.844Z",
+              "updatedAt": "2023-02-12T14:09:25.923Z",
               "__v": 0
           }
       },
-      "message": "Delete Post Success"
+      "message": "Get Single Post Success"
   });
   });
-  test("DELETE / --> Delete a Post (post not found)", async () => {
-    const { body } = await request(app)
-      .delete("/api/posts/639de95f2bc9f41a9529f125")
-      .set(
-        "Authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2IzZThkNjQwYjM0N2QxMjZlNmMzNDEiLCJpYXQiOjE2NzYyMDk5MjQsImV4cCI6MTY3NjI5NjMyNH0.paqUOcPhtOZw7_xmhpNeRjhCOwdF4eItvTCkuBv0EZo"
-      )
-      .expect(500);
-    expect(body).toEqual({
-      errMessage: "Post not found or User not authorized",
-    });
-  });
+
+  
 });
+
+

@@ -20,6 +20,11 @@ router.use('/users', userApi)
 import postApi from '../api/controllers/post/index'
 router.use('/posts', postApi)
 
+// bookmarkApi
+import bookmarkApi from '../api/controllers/bookmark/index'
+router.use('/bookmarks', bookmarkApi)
+
+
 // conversationApi
 import conversationApi from '../api/controllers/conversation/index'
 router.use('/conversations', conversationApi)

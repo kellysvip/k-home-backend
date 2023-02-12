@@ -46,8 +46,8 @@ router.get("/me", loginRequired, getCurrentUser);
 
 router.get("/all", loginRequired, getAllUsers);
 /**
- * @route GET /users/:id
- * @description Get current user info
+ * @route GET /users/all
+ * @description Get All user info
  * @access Login required
  */
 router.get(

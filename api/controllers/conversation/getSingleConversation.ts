@@ -10,25 +10,30 @@ import { Conversation } from "../../../models/Conversation";
 import { User } from "../../../models/User";
 import Joi from "joi";
 
-// const requestSchema = Joi.object({
-//   ownPostId: Joi.string(),
-// });
+const requestSchema = Joi.object({
+  ownPostId: Joi.string().required(),
+});
 
 const paramSchema = Joi.object({
   userId: Joi.string().required(),
 });
 
-export const getConversation = catchAsync(
+export const getSingleConversation = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = validateSchema(paramSchema, req.params);
-    // const { ownPostId } = validateSchema(requestSchema, req.query);
+    const { ownPostId } = validateSchema(requestSchema, req.query);
 
-    // const isUserExist = await User.exists({ _id: userId });
-    // const isOwnPostExist = await User.exists({ _id: ownPostId });
-    // if (!(isUserExist && isOwnPostExist))
-    //   throw new AppError(400, "User not found", "Create Conversation Error");
+    const isUserExist = await User.exists({ _id: userId });
+    const isOwnPostExist = await User.exists({ _id: ownPostId });
+    if (!(isUserExist && isOwnPostExist))
+      throw new AppError(400, "User not found", "Create Conversation Error");
 
-    const conversation = await Conversation.find({ members: userId }).populate("members");
+    const conversation =  await Conversation.find({
+          $or: [
+            { members: [userId, ownPostId] },
+            { members: [ownPostId, userId] },
+          ],
+        }).populate("members");
 
     sendResponse(
       res,
