@@ -6,7 +6,7 @@
     "node": "18.12.1"
   },
   "scripts": {
-    "start": "nodemon./bin/www.ts",
+    "start": "nodemon ./bin/www.ts",
     "dev": "nodemon ./bin/www.ts",
     "test": "jest"
   },
