@@ -7,6 +7,7 @@ import router from "./routes/index";
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 import { AppError, sendResponse } from "./helpers/ultis";
+import httpStatus from "http-status";
 
 require("dotenv/config");
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Connect to MONGODB   //NODE_ENV === 'test'
 const mongoURI: string =
   process.env.MONGODB_URI ||
-  "mongodb+srv://admin:admin@cluster0.t244bsh.mongodb.net/k-home-test";
+  "mongodb+srv://admin:admin@cluster0.j7fapsx.mongodb.net/test";
 
 mongoose
   .connect(mongoURI)
@@ -31,35 +32,29 @@ mongoose
 
 //Error Handler
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
-  err.statusCode = 404;
-  err.message = "Not Found";
+  if (err.statusCode) {
+    return res
+      .status(err.statusCode)
+      .json({ message: err.message ? err.message : err.statusCode });
+  }
+  return res
+    .status(httpStatus.INTERNAL_SERVER_ERROR)
+    .json({ message: httpStatus[httpStatus.INTERNAL_SERVER_ERROR] });
   next(err);
 });
 
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   console.log("ERROR", err);
   if (err.isOperational) {
-    return sendResponse(
-      res,
-      err.statusCode ? err.statusCode : 500,
-      false,
-      { message: err.message },
-      null,
-      err.errorType
-    );
-  } else {
-    return sendResponse(
-      res,
-      err.statusCode ? err.statusCode : 500,
-      false,
-      { message: err.message },
-      null,
-      "Internal Server Error"
-    );
+    return res
+      .status(err.statusCode || httpStatus.INTERNAL_SERVER_ERROR)
+      .json({ error_msg: err.message || httpStatus[httpStatus.INTERNAL_SERVER_ERROR] });
   }
 });
 
 app.use("/api", router);
+
+
 
 export default app;
 module.exports = app;

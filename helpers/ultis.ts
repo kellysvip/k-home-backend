@@ -1,28 +1,34 @@
 import { NextFunction, Request, Response } from "express";
+import Joi, { Schema } from "joi";
+import httpStatus from 'http-status'
+import createHttpError from "http-errors";
 
 export function sendResponse(
   res: Response,
   status: number,
-  success: boolean,
   data: Record<string, unknown >,
-  errors: Record<string, unknown> | null,
   message: string
 ) {
   const response: {
-    success?: boolean;
     data?: Record<string, unknown >;
-    errors?: Record<string, unknown> | null;
     message?: string;
   } = {};
-  if (success) response.success = success;
   if (data) response.data = data;
-  if (errors) response.errors = errors;
   if (message) response.message = message;
   return res.status(status).json(response);
 }
 export const catchAsync = (func: Function) => (req: Request, res: Response, next: NextFunction ) => {
-    func(req, res, next).catch((err: Error) => res.status(500).json({errMessage: err.message}))
+    func(req, res, next).catch((err: Error) => res.status(httpStatus.INTERNAL_SERVER_ERROR).json({errMessage: err.message}))
 }
+
+export function validateSchema<T>(schema: Schema, parameters: T): T  {
+  try {
+     const result = Joi.attempt(parameters, schema)
+     return result
+  } catch (error ) {
+   throw createHttpError(httpStatus.BAD_REQUEST, (error as Error).message ) 
+  }
+} 
 
 export class AppError extends Error {
   public statusCode: number;
