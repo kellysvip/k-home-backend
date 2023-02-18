@@ -1,6 +1,6 @@
 {
   "name": "k-home-be-final",
-  "version": "0.0.0",
+  "version": "v18.12.1",
   "private": true,
   "scripts": {
     "start": "node ./bin/www.ts",
