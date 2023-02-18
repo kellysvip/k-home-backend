@@ -1,6 +1,6 @@
 {
   "name": "k-home-be-final",
-  "version": "18.12.1",
+  "version": "0.0.0",
   "private": true,
   "engines": {
     "node": "18.12.1"
@@ -38,6 +38,7 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.15",
     "@types/http-errors": "^2.0.1",
+    "@types/http-status": "^1.1.2",
     "@types/jest": "^29.2.4",
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.9",
