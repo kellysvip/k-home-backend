@@ -5,7 +5,7 @@
  */
 
 import app from '../app'
-var debug = require('debug')('codercomm-be:server');
+var debug = require('debug')('k-home-backend:server');
 import http from 'http'
 
 /**
