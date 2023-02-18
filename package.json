@@ -31,7 +31,8 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
-    "typescipt": "^1.0.0"
+    "typescipt": "^1.0.0",
+    "nodemon": "^2.0.20"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -44,7 +45,6 @@
     "@types/joi": "^17.2.3",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/morgan": "^1.9.3",
-    "@types/supertest": "^2.0.12",
-    "nodemon": "^2.0.20"
+    "@types/supertest": "^2.0.12"
   }
 }
