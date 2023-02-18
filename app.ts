@@ -6,7 +6,7 @@ import cors from "cors";
 import router from "./routes/index";
 import { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
-import { AppError, sendResponse } from "./helpers/ultis";
+import { AppError } from "./helpers/ultis";
 import httpStatus from "http-status";
 
 require("dotenv/config");
@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Connect to MONGODB   //NODE_ENV === 'test'
 const mongoURI: string =
   process.env.MONGODB_URI ||
-  "mongodb+srv://admin:admin@cluster0.j7fapsx.mongodb.net/test";
+  "mongodb+srv://admin:admin@cluster0.j7fapsx.mongodb.net/main";
 
 mongoose
   .connect(mongoURI)
