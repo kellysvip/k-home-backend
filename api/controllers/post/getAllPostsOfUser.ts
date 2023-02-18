@@ -43,7 +43,7 @@ export const getAllPostsOfUser = catchAsync(
     const totalPage = Math.ceil(countPostOfUser / limit);
     const offset = limit * (page - 1);
     const posts = await Post.find({ author: userId, isDeleted: false })
-      .sort({ createAt: 1 })
+      .sort({ updatedAt: -1 })
       .skip(offset)
       .limit(limit)
       .populate("author");

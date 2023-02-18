@@ -4,6 +4,7 @@ import { loginRequired } from "../../../middlewares/authentication";
 import { checkObjectId } from "../../../middlewares/checkObjectId";
 import { validate } from "../../../middlewares/validators";
 import { createUser } from "./createUser";
+import { deleteUser } from "./deleteUser";
 import { getAllUsers } from "./getAllUsers";
 import { getCurrentUser } from "./getCurrentUser";
 import { getSingleUser } from "./getSingleUser";
@@ -76,5 +77,10 @@ router.put(
  * @description Delete a user
  * @access Login required
  */
+router.delete(
+  "/:userId",
+  loginRequired,
+  deleteUser
+);
 
 export default router;

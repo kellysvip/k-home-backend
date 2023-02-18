@@ -16,6 +16,7 @@ const requestSchema = Joi.object({
   limit: Joi.number().default(10),
   title: Joi.string(),
   address: Joi.string(),
+  price: Joi.string(),
 });
 
 export const getPosts = catchAsync(
@@ -40,22 +41,38 @@ export const getPosts = catchAsync(
     }
     if (filter.address) {
       filterConditions.push({
-        address: { $regex: filter.address, $options: "i" },
+        address: filter.address,
       });
+    }
+    if (filter.price) {
+      filter.price === "price1"
+        ? filterConditions.push({
+            price: { $lt: 3 },
+          })
+        : filter.price === "price2"
+        ? filterConditions.push({
+            $and: [{price: { $gt: 3 }},{price: { $lt: 5}}]
+            
+          })
+        : filterConditions.push({
+            price: { $gt: 5 },
+          });
     }
     const filterCriteria = filterConditions.length
       ? { $and: filterConditions }
       : { isDeleted: false };
 
-    const countPosts = await Post.countDocuments(
+    const countPosts = await Post
+      .countDocuments
       // filterCriteria as FilterQuery<IPost>
-    );
+      ();
     const totalPage = Math.ceil(countPosts / limit);
     const offset = limit * (page - 1);
+    console.log(offset, limit, page);
     const posts = await Post.find(filterCriteria as FilterQuery<IPost>)
-      .sort({ updatedAt: -1 })
-      .skip(offset)
+      .sort({ createdAt: -1 })
       .limit(limit)
+      .skip(offset)
       .populate("author");
     //Response
     sendResponse(

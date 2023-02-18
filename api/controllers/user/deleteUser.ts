@@ -14,17 +14,9 @@ const paramSchema = Joi.object({
   userId: Joi.string().required(),
 });
 
-const requestSchema = Joi.object({
-  name: Joi.string(),
-  avatarUrl: Joi.string().allow(''),
-  phoneNumber: Joi.string(),
-  aboutMe: Joi.string(),
-  jobTitle: Joi.string().allow(''),
-  facebookLink: Joi.string().allow(''),
-  instagramLink: Joi.string().allow(''),
-});
 
-export const updateProfile = catchAsync(
+
+export const deleteUser = catchAsync(
   async (
     req: Request<{ userId: string }, {}, any, IGetUserAuthInfoRequest> & {
       userId: string;
@@ -37,24 +29,22 @@ export const updateProfile = catchAsync(
       paramSchema,
       req.params
     );
-    const { ...info } = validateSchema(requestSchema, req.body)
-
-    if (currentUserId !== userId)
+    if (currentUserId !== userId && currentUserId !== "63ea296a09d7e41a329cd07b")
       throw new AppError(400, "Permission Required", "Update User Error");
     
     const user = await User.findByIdAndUpdate(
       { _id: userId },
-      { ...info },
+      { isDeleted: true },
       { new: true }
     );
     if (!user)
       throw new AppError(
         404,
         "User not found or User not authorized",
-        "Update User Error"
+        "Delete User Error"
       );
 
     //Response
-    sendResponse(res, httpStatus.OK, { user }, "Update User Success");
+    sendResponse(res, httpStatus.OK, { user }, "Delete User Success");
   }
 );

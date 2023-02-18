@@ -4,4 +4,5 @@ export interface IGetPostQuery {
   title: string;
   userId: string;
   address: string;
+  price: string;
 }

@@ -11,11 +11,10 @@ import { Post } from "../../../models/Post";
 import { PostStatus } from "../../../constants/enums/post-status.enum";
 import httpStatus from "http-status";
 import Joi from "joi";
-import { calculatePostCount } from "./createPost";
 
 const requestSchema = Joi.object({
   title: Joi.string(),
-  imageUrl: Joi.string(),
+  imageUrl: Joi.array(),
   address: Joi.string(),
   price: Joi.number(),
   noBedroom: Joi.number(),
