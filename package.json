@@ -2,6 +2,9 @@
   "name": "k-home-be-final",
   "version": "18.12.1",
   "private": true,
+  "engines": {
+    "node": "18.12.1"
+  },
   "scripts": {
     "start": "node ./bin/www.ts",
     "dev": "nodemon ./bin/www.ts",
