@@ -64,8 +64,7 @@ export const getPosts = catchAsync(
 
     const countPosts = await Post
       .countDocuments
-      // filterCriteria as FilterQuery<IPost>
-      ();
+      (filterCriteria as FilterQuery<IPost>);
     const totalPage = Math.ceil(countPosts / limit);
     const offset = limit * (page - 1);
     console.log(offset, limit, page);
